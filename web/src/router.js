@@ -80,7 +80,7 @@ const router = new VueRouter({
 router.beforeEach(async (to, from, next) => {
   const member = to.query.member;
   try {
-    const response = await axios.get('http://localhost:5001/check', {
+    const response = await axios.get('http://gptall.online:5001/check', {
       params: { member }
     });
     if (response.data.is_member) {
