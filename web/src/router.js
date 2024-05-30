@@ -7,6 +7,9 @@ import routerList from '@/pages/Doc/routerList';
 import LoginComponent from '@/components/views/LoginComponent.vue';
 import ErrorComponent from '@/components/views/ErrorComponent.vue';
 
+
+
+
 // 处理没有翻译的章节路由
 const handleRouterList = () => {
   let zhList = routerList[0].children;
@@ -74,6 +77,7 @@ const routes = [
 ];
 
 const router = new VueRouter({
+  mode: 'history',  // 添加这一行
   routes
 });
 
