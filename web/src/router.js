@@ -77,7 +77,7 @@ const routes = [
 ];
 
 const router = new VueRouter({
-  // mode: 'history',  // 添加这一行
+  mode: 'history',  // 添加这一行
   routes
 });
 
