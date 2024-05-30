@@ -77,14 +77,14 @@ const routes = [
 ];
 
 const router = new VueRouter({
-  mode: 'history',  // 添加这一行
+  // mode: 'history',  // 添加这一行
   routes
 });
 
 router.beforeEach(async (to, from, next) => {
   const member = to.query.member;
   try {
-    const response = await axios.get('http://gptall.online:5001/check', {
+    const response = await axios.get('https://gptall.online:5001/check', {
       params: { member }
     });
     if (response.data.is_member) {
