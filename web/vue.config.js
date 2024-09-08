@@ -38,5 +38,10 @@ module.exports = {
         '@': path.resolve(__dirname, './src/')
       }
     }
+  },
+  // 添加devServer配置
+  devServer: {
+    host: '0.0.0.0',
+    port: 8080, // 可以根据需要修改端口
   }
 }
