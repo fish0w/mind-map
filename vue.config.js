@@ -6,8 +6,8 @@ module.exports = {
     : '/',
   devServer: {
     https: {
-      key: fs.readFileSync('/etc/letsencrypt/live/gptall.online/privkey.pem'), // 替换为你的私钥文件路径
-      cert: fs.readFileSync('/etc/letsencrypt/live/gptall.online/fullchain.pem'), // 替换为你的证书文件路径
+      key: fs.readFileSync('/etc/letsencrypt/live/shuitunai.cn/privkey.pem'), // 替换为你的私钥文件路径
+      cert: fs.readFileSync('/etc/letsencrypt/live/shuitunai.cn/fullchain.pem'), // 替换为你的证书文件路径
     },
     host: '0.0.0.0',
     port: 8080,
