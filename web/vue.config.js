@@ -57,6 +57,9 @@ module.exports = {
   '.shuitunai.cn', // 允许的域名
 ],
 
-   disableHostCheck: true, // 禁用 Host 检查
+  disableHostCheck: true, // 禁用 Host 检查
+  public: 'shuitunai.cn:8080',
+  sockHost: 'shuitunai.cn', // 设置 sockjs-node 使用的主机名
+  sockPath: '/sockjs-node', // 指定 sockjs-node 的路径
   }
 }
