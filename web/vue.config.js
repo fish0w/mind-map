@@ -53,6 +53,10 @@ module.exports = {
         changeOrigin: true,
       },
     },
+    allowedHosts: [
+  '.shuitunai.cn', // 允许的域名
+],
+
    disableHostCheck: true, // 禁用 Host 检查
   }
 }
