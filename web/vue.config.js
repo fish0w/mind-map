@@ -40,8 +40,25 @@ module.exports = {
     }
   },
   // 添加devServer配置
-  devServer: {
-    host: '0.0.0.0',
-    port: 8080, // 可以根据需要修改端口
-  }
+ devServer: {
+  host: '0.0.0.0',
+  port: 8080,
+  headers: {
+    'Access-Control-Allow-Origin': '*', // 允许所有域名的跨域请求
+  },
+  proxy: {
+    '/ws': {
+      target: 'ws://localhost:8080', // 代理 WebSocket 请求
+      ws: true,
+      changeOrigin: true, // 确保代理后主机头信息正确
+    },
+  },
+  allowedHosts: [
+    '.shuitunai.cn', // 替换为你允许的域名
+  ],
+  // 支持 WebSocket
+  https: true, // 如果你使用 HTTPS，启用 HTTPS 支持
+  disableHostCheck: true, // 禁用 Host 检查
+},
+
 }
