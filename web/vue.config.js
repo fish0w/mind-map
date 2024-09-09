@@ -47,6 +47,17 @@ module.exports = {
     headers: {
     'Access-Control-Allow-Origin': '*', // 允许所有域名的跨域请求
   },
+  proxy: {
+        '/api': {
+            target: 'http://localhost:8080',
+            changeOrigin: true,
+        },
+        '/sockjs-node': {
+            target: 'http://localhost:8080',
+            ws: true,  // 启用 WebSocket
+            changeOrigin: true,
+        },
+    },
 
   }
 }
