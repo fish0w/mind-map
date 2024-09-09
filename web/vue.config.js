@@ -53,5 +53,7 @@ module.exports = {
         changeOrigin: true,
       },
     },
+   https: true, // 如果你使用 HTTPS，启用 HTTPS 支持
+   disableHostCheck: true, // 禁用 Host 检查
   }
 }
