@@ -41,6 +41,11 @@ module.exports = {
   },
   // 添加devServer配置
   devServer: {
+    https: {
+      key: fs.readFileSync('/etc/letsencrypt/live/shuitunai.cn/privkey.pem'),
+      cert: fs.readFileSync('/etc/letsencrypt/live/shuitunai.cn/fullchain.pem'),
+      ca: fs.readFileSync('/etc/letsencrypt/live/shuitunai.cn/fullchain.pem'), // 可选，如果需要单独的 CA 文件，通常可以省略
+    },
     host: '0.0.0.0',
     port: 8080, // 可以根据需要修改端口
     headers: {
