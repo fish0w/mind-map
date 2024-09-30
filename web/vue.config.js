@@ -12,7 +12,7 @@ module.exports = {
   filenameHashing: false,
   transpileDependencies: ['yjs', 'lib0'],
   chainWebpack: config => {
-    // 移除 preload 插件
+    // 移除 preload 插件z
     config.plugins.delete('preload')
     // 移除 prefetch 插件
     config.plugins.delete('prefetch')
