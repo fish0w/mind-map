@@ -1,81 +1,67 @@
 <template>
-  <div class="toolbarContainer" :class="{ isDark: isDark }">
-    <div class="toolbar" ref="toolbarRef">
-      <!-- 节点操作 -->
-      <div class="toolbarBlock">
-        <ToolbarNodeBtnList :list="horizontalList"></ToolbarNodeBtnList>
-        <!-- 更多 -->
-        <el-popover
-          v-model="popoverShow"
-          placement="bottom-end"
-          width="120"
-          trigger="hover"
-          v-if="showMoreBtn"
-          :style="{ marginLeft: horizontalList.length > 0 ? '20px' : 0 }"
-        >
-          <ToolbarNodeBtnList
-            dir="v"
-            :list="verticalList"
-            @click.native="popoverShow = false"
-          ></ToolbarNodeBtnList>
-          <div slot="reference" class="toolbarBtn">
-            <span class="icon iconfont icongongshi"></span>
-            <span class="text">{{ $t('toolbar.more') }}</span>
-          </div>
-        </el-popover>
-      </div>
-      <!-- 导出 -->
-      <div class="toolbarBlock">
+  <div>
+    <div class="toolbarContainer" :class="{ isDark: isDark }">
+      <div class="toolbar" ref="toolbarRef">
 
-        <div class="toolbarBtn" @click="$bus.$emit('showImport')">
+        <div class="toolbarBlock">
+           <div class="toolbarBtn" @click="$bus.$emit('showImport')">
           <span class="icon iconfont icondaoru"></span>
-          <span class="text">{{ $t('toolbar.import') }}</span>
+          <span class="text">{{ $t('toolbar.openFile') }}</span>
         </div>
-        <div
-          class="toolbarBtn"
-          @click="$bus.$emit('showExport')"
-          style="margin-right: 0;"
-        >
-          <span class="icon iconfont iconexport"></span>
-          <span class="text">{{ $t('toolbar.export') }}</span>
-        </div>
-        <!-- 本地文件树 -->
-        <div
-          class="fileTreeBox"
-          v-if="fileTreeVisible"
-          :class="{ expand: fileTreeExpand }"
-        >
-          <div class="fileTreeToolbar">
-            <div class="fileTreeName">
-              {{ rootDirName ? '/' + rootDirName : '' }}
+
+          <el-tooltip
+              effect="dark"
+              :content="$t('toolbar.newFileTip')"
+              placement="bottom"
+              v-if="!isMobile"
+          >
+            <div class="toolbarBtn" @click="createNewLocalFile">
+              <span class="icon iconfont iconxinjian"></span>
+              <span class="text">{{ $t('toolbar.newFile') }}</span>
             </div>
-            <div class="fileTreeActionList">
-              <div
-                class="btn"
-                :class="[
+          </el-tooltip>
+
+
+
+
+
+          <!-- 本地文件树 -->
+          <div
+              class="fileTreeBox"
+              v-if="fileTreeVisible"
+              :class="{ expand: fileTreeExpand }"
+          >
+            <div class="fileTreeToolbar">
+              <div class="fileTreeName">
+                {{ rootDirName ? '/' + rootDirName : '' }}
+              </div>
+              <div class="fileTreeActionList">
+                <div
+                    class="btn"
+                    :class="[
                   fileTreeExpand ? 'el-icon-arrow-up' : 'el-icon-arrow-down'
                 ]"
-                @click="fileTreeExpand = !fileTreeExpand"
-              ></div>
-              <div
-                class="btn el-icon-close"
-                @click="fileTreeVisible = false"
-              ></div>
+                    @click="fileTreeExpand = !fileTreeExpand"
+                ></div>
+                <div
+                    class="btn el-icon-close"
+                    @click="fileTreeVisible = false"
+                ></div>
+              </div>
             </div>
-          </div>
-          <div class="fileTreeWrap">
-            <el-tree
-              :props="fileTreeProps"
-              :load="loadFileTreeNode"
-              :expand-on-click-node="false"
-              node-key="id"
-              lazy
-            >
+            <div class="fileTreeWrap">
+              <el-tree
+                  :props="fileTreeProps"
+                  :load="loadFileTreeNode"
+                  :expand-on-click-node="false"
+                  node-key="id"
+                  lazy
+              >
               <span class="customTreeNode" slot-scope="{ node, data }">
                 <div class="treeNodeInfo">
                   <span
-                    class="treeNodeIcon iconfont"
-                    :class="[
+                      class="treeNodeIcon iconfont"
+                      :class="[
                       data.type === 'file' ? 'iconwenjian' : 'icondakai'
                     ]"
                   ></span>
@@ -83,33 +69,80 @@
                 </div>
                 <div class="treeNodeBtnList" v-if="data.type === 'file'">
                   <el-button
-                    type="text"
-                    size="mini"
-                    v-if="data.enableEdit"
-                    @click="editLocalFile(data)"
-                    >编辑</el-button
+                      type="text"
+                      size="mini"
+                      v-if="data.enableEdit"
+                      @click="editLocalFile(data)"
+                  >编辑</el-button
                   >
                   <el-button
-                    type="text"
-                    size="mini"
-                    v-else
-                    @click="importLocalFile(data)"
-                    >导入</el-button
+                      type="text"
+                      size="mini"
+                      v-else
+                      @click="importLocalFile(data)"
+                  >导入</el-button
                   >
                 </div>
               </span>
-            </el-tree>
+              </el-tree>
+            </div>
           </div>
         </div>
+        <!-- 节点操作 -->
+        <div class="toolbarBlock">
+          <ToolbarNodeBtnList :list="horizontalList"></ToolbarNodeBtnList>
+          <!-- 更多 -->
+          <el-popover
+              v-model="popoverShow"
+              placement="bottom-end"
+              width="120"
+              trigger="hover"
+              v-if="showMoreBtn"
+              :style="{ marginLeft: horizontalList.length > 0 ? '20px' : 0 }"
+          >
+            <ToolbarNodeBtnList
+                dir="v"
+                :list="verticalList"
+                @click.native="popoverShow = false"
+            ></ToolbarNodeBtnList>
+            <div slot="reference" class="toolbarBtn">
+              <span class="icon iconfont icongongshi"></span>
+              <span class="text">{{ $t('toolbar.more') }}</span>
+            </div>
+          </el-popover>
+        </div>
+         <el-tooltip
+              effect="dark"
+              :content="$t('toolbar.saveAsTip')"
+              placement="bottom"
+              v-if="!isMobile"
+          >
+        <div class="toolbarBlock">
+            <div class="toolbarBtn" @click="saveLocalFile" v-if="!isMobile">
+            <span class="icon iconfont iconlingcunwei"></span>
+            <span class="text">{{ $t('toolbar.saveAs') }}</span>
+          </div>
+        </div>
+            </el-tooltip>
+        <div class="toolbarBlock" style="background: #03de6d">
+            <div
+              class="toolbarBtn  export_bt"
+              @click="$bus.$emit('showExport')"
+              style="margin-right: 0;"
+          >
+            <span class="text"  style="color: white;font-size: 20px;">{{ $t('toolbar.export') }}</span>
+          </div>
+        </div>
+
       </div>
+      <NodeImage></NodeImage>
+      <NodeHyperlink></NodeHyperlink>
+      <NodeIcon></NodeIcon>
+      <NodeNote></NodeNote>
+      <NodeTag></NodeTag>
+      <Export></Export>
+      <Import ref="ImportRef"></Import>
     </div>
-    <NodeImage></NodeImage>
-    <NodeHyperlink></NodeHyperlink>
-    <NodeIcon></NodeIcon>
-    <NodeNote></NodeNote>
-    <NodeTag></NodeTag>
-    <Export></Export>
-    <Import ref="ImportRef"></Import>
   </div>
 </template>
 
@@ -121,12 +154,12 @@ import NodeNote from './NodeNote'
 import NodeTag from './NodeTag'
 import Export from './Export'
 import Import from './Import'
-import { mapState } from 'vuex'
-import { Notification } from 'element-ui'
+import {mapState} from 'vuex'
+import {Notification} from 'element-ui'
 import exampleData from 'simple-mind-map/example/exampleData'
-import { getData } from '../../../api'
+import {getData} from '../../../api'
 import ToolbarNodeBtnList from './ToolbarNodeBtnList.vue'
-import { throttle } from 'simple-mind-map/src/utils/index'
+import {throttle, isMobile} from 'simple-mind-map/src/utils/index'
 
 /**
  * @Author: 王林
@@ -148,6 +181,7 @@ export default {
   },
   data() {
     return {
+      isMobile: isMobile(),
       list: [
         'back',
         'forward',
@@ -162,8 +196,10 @@ export default {
         'tag',
         'summary',
         'associativeLine',
-        'formula'
-        // 'attachment'
+        'formula',
+        // 'attachment',
+        'outerFrame',
+        'annotation'
       ],
       horizontalList: [],
       verticalList: [],
@@ -176,7 +212,8 @@ export default {
       },
       fileTreeVisible: false,
       rootDirName: '',
-      fileTreeExpand: true
+      fileTreeExpand: true,
+      waitingWriteToLocalFile: false
     }
   },
   computed: {
@@ -197,14 +234,17 @@ export default {
   },
   mounted() {
     this.computeToolbarShow()
+  this.$bus.$on('saveMdFileToAnotherComponent', this.importFromLocalStorage);
     this.computeToolbarShowThrottle = throttle(this.computeToolbarShow, 300)
     window.addEventListener('resize', this.computeToolbarShowThrottle)
     this.$bus.$on('lang_change', this.computeToolbarShowThrottle)
+    window.addEventListener('beforeunload', this.onUnload)
   },
   beforeDestroy() {
     this.$bus.$off('write_local_file', this.onWriteLocalFile)
     window.removeEventListener('resize', this.computeToolbarShowThrottle)
     this.$bus.$off('lang_change', this.computeToolbarShowThrottle)
+    window.removeEventListener('beforeunload', this.onUnload)
   },
   methods: {
     // 计算工具按钮如何显示
@@ -233,13 +273,44 @@ export default {
       }
       loopCheck()
     },
+    importFromLocalStorage() {
+      const mdContent = localStorage.getItem('mockMdFile'); // 从 localStorage 获取 Markdown 文件
+      if (mdContent) {
+        // 创建一个虚拟的 File 对象
+        const file = new File([mdContent], 'mockFile.md', {type: 'text/markdown'});
 
+        // 调用 Import 组件的 onChange 方法
+        this.$refs.ImportRef.onChange({
+          raw: file,
+          name: file.name
+        });
+
+        // 使用 this.$nextTick 确保 Vue 正确响应数据更新
+        this.$nextTick(() => {
+          this.$refs.ImportRef.confirm(); // 触发 Import 组件的 confirm 方法
+        });
+
+      } else {
+        this.$message.error('localStorage 中没有找到 Markdown 文件');
+      }
+    },
     // 监听本地文件读写
     onWriteLocalFile(content) {
       clearTimeout(this.timer)
+      if (fileHandle && this.isHandleLocalFile) {
+        this.waitingWriteToLocalFile = true
+      }
       this.timer = setTimeout(() => {
         this.writeLocalFile(content)
       }, 1000)
+    },
+
+    onUnload(e) {
+      if (this.waitingWriteToLocalFile) {
+        const msg = '存在未保存的数据'
+        e.returnValue = msg
+        return msg
+      }
     },
 
     // 加载本地文件树
@@ -362,7 +433,7 @@ export default {
         Notification({
           title: this.$t('toolbar.tip'),
           message: `${this.$t('toolbar.editingLocalFileTipFront')}${
-            file.name
+              file.name
           }${this.$t('toolbar.editingLocalFileTipEnd')}`,
           duration: 0,
           showClose: true
@@ -397,6 +468,7 @@ export default {
     // 写入本地文件
     async writeLocalFile(content) {
       if (!fileHandle || !this.isHandleLocalFile) {
+        this.waitingWriteToLocalFile = false
         return
       }
       if (!this.isFullDataFile) {
@@ -406,6 +478,7 @@ export default {
       const writable = await fileHandle.createWritable()
       await writable.write(string)
       await writable.close()
+      this.waitingWriteToLocalFile = false
     },
 
     // 创建本地文件
@@ -426,7 +499,7 @@ export default {
           types: [
             {
               description: '',
-              accept: { 'application/json': ['.smm'] }
+              accept: {'application/json': ['.smm']}
             }
           ],
           suggestedName: this.$t('toolbar.defaultFileName')
@@ -463,6 +536,7 @@ export default {
   &.isDark {
     .toolbar {
       color: hsla(0, 0%, 100%, 0.9);
+
       .toolbarBlock {
         background-color: #262a2e;
 
@@ -524,6 +598,7 @@ export default {
       }
     }
   }
+
   .toolbar {
     position: fixed;
     left: 50%;
@@ -687,5 +762,12 @@ export default {
       }
     }
   }
+}
+
+.import_bt:hover {
+  transform: scale(1.1);
+}
+.export_bt:hover {
+  transform: scale(1.1);
 }
 </style>
