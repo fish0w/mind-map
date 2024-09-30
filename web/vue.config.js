@@ -5,7 +5,7 @@ const isLibrary = process.env.NODE_ENV === 'library'
 const WebpackDynamicPublicPathPlugin = require('webpack-dynamic-public-path')
 
 module.exports = {
-  publicPath: isDev ? '' : './dist',
+  publicPath: isDev ? '' : '/md_edit/',  // 将 publicPath 设置为 /md_edit/ 确保路径正确
   outputDir: '../dist',
   lintOnSave: false,
   productionSourceMap: false,
