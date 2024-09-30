@@ -5,7 +5,7 @@ const isLibrary = process.env.NODE_ENV === 'library'
 const WebpackDynamicPublicPathPlugin = require('webpack-dynamic-public-path')
 
 module.exports = {
-  publicPath: isDev ? '' : './dist',
+  publicPath:"/md_edit/",
   outputDir: '../dist',
   lintOnSave: false,
   productionSourceMap: false,
@@ -43,10 +43,11 @@ module.exports = {
   devServer: {
     host: '0.0.0.0',
     port: 8080, // 可以根据需要修改端口
-    public: '172.30.119.74:8080', // 替换为你的实际 IP 地址
+    public: '47.122.4.195:8080', // 替换为你的实际 IP 地址
     headers: {
     'Access-Control-Allow-Origin': '*', // 允许所有域名的跨域请求
-  },
+  }, allowedHosts: 'all',
+
   proxy: {
         '/api': {
             target: 'http://localhost:8080',
