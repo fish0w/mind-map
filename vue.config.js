@@ -1,7 +1,7 @@
 const fs = require('fs');
 
 module.exports = {
-  publicPath: '/',
+  publicPath: '/md_edit/',  // 设置为代理路径
   devServer: {
     headers: {
     'Access-Control-Allow-Origin': '*',
