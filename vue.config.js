@@ -1,7 +1,7 @@
 const fs = require('fs');
 
 module.exports = {
-  publicPath: '/',
+  publicPath: './',
   devServer: {
     headers: {
     'Access-Control-Allow-Origin': '*',
